@@ -3,12 +3,21 @@ section .text
  
 ; Принимает код возврата и завершает текущий процесс
 exit: 
-    xor rax, rax,
+    mov rax, 60
+    xor rdi, rdi
+    syscall
     ret 
 
 ; Принимает указатель на нуль-терминированную строку, возвращает её длину
+; rdi - first argument (register) in call to pass to function
 string_length:
     xor rax, rax
+    .loop:
+        cmp byte [rdi+rax]
+        jz .break
+        inc rax
+        jmp .loop
+    .break:
     ret
 
 ; Принимает указатель на нуль-терминированную строку, выводит её в stdout
