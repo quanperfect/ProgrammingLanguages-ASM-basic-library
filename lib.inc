@@ -139,9 +139,9 @@ string_equals:
 ;		rax - введенный символ
 read_char:
 	push 0						; резервируем место для чтения
-	mov rax, 0					; syscall read number
+	xor rax, rax					; syscall read number - 0, обнуляем регистр
     mov rdx, 1					; длина в 1 символ
-    mov rdi, 0					; stdin file descriptor
+    xor rdi, rdi					; stdin file descriptor - 0, обнуляем регистр
     mov rsi, rsp				; адрес, куда будет считываться символ
     syscall
     pop rax						; считываем в rax введенный символ
@@ -201,7 +201,7 @@ read_word:
 	pop r14						; восстанавливаем Callee-saved регистры -
 	pop r13						; регистры, которые нужно сохранять и восстанавливать вручную тому,
 	pop r12						; кого вызвали
-	mov rax, 0
+	xor rax, rax
 	ret
 .exit:
 	mov byte[r12+r14], 0			
